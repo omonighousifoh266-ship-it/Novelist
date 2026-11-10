@@ -1,191 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novel Haven</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novel Haven</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        body {
-            background: #101018;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+body {
+  background: #100f18;
+  color: #f5f2ff;
+  font-family: Arial, sans-serif;
+}
 
-        header {
-            padding: 22px;
-            background: #191925;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+header {
+  padding: 18px;
+  background: #191725;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #302b40;
+}
 
-        header h2 {
-            color: #a78bfa;
-        }
+.logo {
+  color: #b69aff;
+  font-size: 22px;
+  font-weight: bold;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
-        }
+header button, .action {
+  background: #292338;
+  color: white;
+  border: 1px solid #51416c;
+  padding: 9px 13px;
+  border-radius: 7px;
+  cursor: pointer;
+}
 
-        .hero {
-            padding: 55px 20px;
-            text-align: center;
-        }
+.hero {
+  padding: 35px 20px;
+  text-align: center;
+  background: linear-gradient(140deg, #302047, #151321 70%);
+}
 
-        .hero h1 {
-            font-size: 32px;
-            margin-bottom: 15px;
-        }
+.hero h1 {
+  font-size: 29px;
+  margin-bottom: 12px;
+}
 
-        .hero p {
-            color: #aaa;
-            margin-bottom: 20px;
-        }
+.hero p {
+  color: #c4b8d5;
+  line-height: 1.6;
+}
 
-        .search {
-            padding: 13px;
-            width: 90%;
-            max-width: 400px;
-            border: none;
-            border-radius: 8px;
-        }
+.search {
+  width: 100%;
+  max-width: 450px;
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #51416c;
+  background: #211d2d;
+  color: white;
+  outline: none;
+}
 
-        .books {
-            padding: 20px;
-        }
+section {
+  padding: 22px 16px;
+}
 
-        .books h2 {
-            margin-bottom: 20px;
-        }
+.section-title {
+  margin-bottom: 17px;
+  font-size: 21px;
+}
 
-        .book-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 18px;
-        }
+.genres {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
 
-        .book {
-            background: #20202e;
-            padding: 12px;
-            border-radius: 10px;
-        }
+.genre {
+  flex-shrink: 0;
+  background: #242032;
+  border: 1px solid #443857;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
 
-        .book img {
-            width: 100%;
-            height: 190px;
-            object-fit: cover;
-            border-radius: 7px;
-        }
+.genre.active {
+  background: #8959c8;
+  border-color: #8959c8;
+}
 
-        .book h3 {
-            margin: 10px 0 5px;
-        }
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
 
-        .book p {
-            color: #aaa;
-            font-size: 13px;
-        }
+.book {
+  background: #1d1a29;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #302a3c;
+  min-width: 0;
+}
 
-        .book button {
-            margin-top: 12px;
-            padding: 10px;
-            width: 100%;
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+.cover {
+  height: 185px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+  background: linear-gradient(145deg, #65418d, #211a36 70%);
+  overflow: hidden;
+}
 
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #888;
-        }
-    </style>
+.cover.two {
+  background: linear-gradient(145deg, #8c463e, #251725);
+}
+
+.cover.three {
+  background: linear-gradient(145deg, #356b75, #17202c);
+}
+
+.cover.four {
+  background: linear-gradient(145deg, #80613d, #251c25);
+}
+
+.cover small {
+  color: #e4d6f7;
+}
+
+.cover h3 {
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+.book h3 {
+  font-size: 15px;
+  margin-top: 11px;
+}
+
+.book p {
+  color: #aaa1b9;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.book-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.book-actions button {
+  flex: 1;
+  padding: 9px 4px;
+  border: none;
+  border-radius: 6px;
+  background: #8959c8;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.book-actions .save {
+  background: #393044;
+}
+
+#reader {
+  display: none;
+  min-height: 100vh;
+  background: #15131c;
+}
+
+.reader-top {
+  padding: 16px;
+  background: #211c2b;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.reader-content {
+  max-width: 720px;
+  margin: auto;
+  padding: 25px 20px;
+}
+
+.reader-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.chapter-label {
+  color: #a99bbd;
+  margin-bottom: 28px;
+  font-size: 13px;
+}
+
+.chapter-text {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #e2dce9;
+  white-space: pre-line;
+}
+
+.reader-controls {
+  display: flex;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.reader-controls button {
+  flex: 1;
+  padding: 13px 5px;
+  border: none;
+  border-radius: 7px;
+  background: #8959c8;
+  color: white;
+  cursor: pointer;
+}
+
+.reader-controls button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.reader-settings {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.reader-settings button {
+  padding: 8px 13px;
+  background: #30283c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.empty {
+  color: #aaa;
+  padding: 20px 0;
+}
+
+footer {
+  padding: 25px;
+  text-align: center;
+  color: #888;
+  border-top: 1px solid #302a3c;
+}
+
+@media (min-width: 650px) {
+  .book-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  section {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+</style>
 </head>
 
 <body>
 
-    <header>
-        <h2>Novel Haven</h2>
+<div id="home">
+<header>
+  <div class="logo">Novel Haven</div>
+  <button onclick="showSaved()">♡ My Library</button>
+</header>
 
-        <nav>
-            <a href="#">Home</a>
-            <a href="#books">Novels</a>
-        </nav>
-    </header>
+<div class="hero">
+  <h1>Stories Beyond Imagination</h1>
+  <p>Discover new worlds. Fall in love with stories.</p>
+  <input class="search" id="search"
+    placeholder="Search novels or authors..."
+    oninput="renderBooks()">
+</div>
 
-    <section class="hero">
-        <h1>Enter a World of Stories</h1>
-        <p>Discover amazing novels and enjoy every chapter.</p>
+<section>
+  <h2 class="section-title">Explore Genres</h2>
+  <div class="genres" id="genres"></div>
+</section>
 
-        <input
-            class="search"
-            type="text"
-            placeholder="Search for a novel..."
-            id="search"
-            oninput="searchBooks()"
-        >
-    </section>
+<section>
+  <h2 class="section-title" id="bookHeading">Discover Novels</h2>
+  <div class="book-grid" id="bookGrid"></div>
+</section>
 
-    <section class="books" id="books">
-        <h2>Featured Novels</h2>
+<footer>© 2026 Novel Haven</footer>
+</div>
 
-        <div class="book-grid" id="bookGrid">
+<div id="reader">
+  <div class="reader-top">
+    <button class="action" onclick="closeReader()">← Library</button>
+    <button class="action" onclick="changeFont(-1)">A−</button>
+    <button class="action" onclick="changeFont(1)">A+</button>
+  </div>
 
-            <div class="book">
-                <img src="https://placehold.co/300x400/292044/ffffff?text=Novel+One" alt="Novel One cover">
-                <h3>Novel One</h3>
-                <p>Author: Your Name</p>
-                <button onclick="readNovel('Novel One')">Read Novel</button>
-            </div>
+  <div class="reader-content">
+    <h2 id="readerTitle"></h2>
+    <div class="chapter-label" id="chapterLabel"></div>
+    <div class="chapter-text" id="chapterText"></div>
 
-            <div class="book">
-                <img src="https://placehold.co/300x400/292044/ffffff?text=Novel+Two" alt="Novel Two cover">
-                <h3>Novel Two</h3>
-                <p>Author: Your Name</p>
-                <button onclick="readNovel('Novel Two')">Read Novel</button>
-            </div>
+    <div class="reader-controls">
+      <button id="previous" onclick="changeChapter(-1)">Previous</button>
+      <button id="next" onclick="changeChapter(1)">Next Chapter</button>
+    </div>
+  </div>
+</div>
 
-            <div class="book">
-                <img src="https://placehold.co/300x400/292044/ffffff?text=Novel+Three" alt="Novel Three cover">
-                <h3>Novel Three</h3>
-                <p>Author: Your Name</p>
-                <button onclick="readNovel('Novel Three')">Read Novel</button>
-            </div>
+<script>
+const novels = [
+  {
+    id: 1,
+    title: "The Forgotten Kingdom",
+    author: "Michael James",
+    genre: "Fantasy",
+    style: "",
+    chapters: [
+      {
+        title: "The Beginning",
+        text: `The night was unusually quiet.
 
+Beyond the mountains, an ancient kingdom waited in darkness.
+
+Nobody remembered its name, and nobody dared to speak of its secrets.
+
+But tonight, everything was about to change.`
+      },
+      {
+        title: "The Mysterious Stranger",
+        text: `The following morning, a stranger arrived at the village.
+
+His clothes were covered in dust, and a strange symbol glowed on his hand.
+
+"I have been looking for you," he whispered.`
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: "A Love Rewritten",
+    author: "Sarah Williams",
+    genre: "Romance",
+    style: "two",
+    chapters: [
+      {
+        title: "An Unexpected Meeting",
+        text: `Rain poured across the city as she entered the little café.
+
+She never expected to see him again.
+
+Yet there he was, sitting beside the window, holding the same old book.`
+      },
+      {
+        title: "Old Memories",
+        text: `Some memories never disappear.
+
+They simply wait for the right moment to return.
+
+And suddenly, every word they had never said came rushing back.`
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: "Shadow Hunter",
+    author: "David Stone",
+    genre: "Action",
+    style: "three",
+    chapters: [
+      {
+        title: "The First Mission",
+        text: `The city had fallen into chaos.
+
+A single figure stood above the rooftops, watching the streets below.
+
+His mission was simple. Find the enemy before sunrise.`
+      },
+      {
+        title: "Into Darkness",
+        text: `The door opened slowly.
+
+A cold wind swept through the abandoned building.
+
+He knew someone was waiting inside.`
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "The Last Secret",
+    author: "Anna Grace",
+    genre: "Mystery",
+    style: "four",
+    chapters: [
+      {
+        title: "The Hidden Letter",
+        text: `The envelope had no name on it.
+
+Only three words were written across the front:
+
+Do not open.
+
+Naturally, she opened it.`
+      },
+      {
+        title: "A Strange Discovery",
+        text: `Behind the old painting was a small wooden box.
+
+Inside lay a photograph, a key, and a secret that should have remained buried.`
+      }
+    ]
+  }
+];
+
+const genreList = [
+  "All", "Fantasy", "Romance", "Action",
+  "Mystery", "Adventure", "Horror"
+];
+
+let activeGenre = "All";
+let saved = JSON.parse(localStorage.getItem("savedNovels") || "[]");
+let currentNovel = null;
+let currentChapter = 0;
+let fontSize = 18;
+let savedOnly = false;
+
+function renderGenres() {
+  document.getElementById("genres").innerHTML =
+    genreList.map(g => `
+      <button class="genre ${activeGenre === g ? "active" : ""}"
+      onclick="selectGenre('${g}')">${g}</button>
+    `).join("");
+}
+
+function selectGenre(genre) {
+  activeGenre = genre;
+  savedOnly = false;
+  renderGenres();
+  renderBooks();
+}
+
+function renderBooks() {
+  const query = document.getElementById("search").value.toLowerCase();
+
+  const filtered = novels.filter(n =>
+    (activeGenre === "All" || n.genre === activeGenre) &&
+    (!savedOnly || saved.includes(n.id)) &&
+    (n.title.toLowerCase().includes(query) ||
+     n.author.toLowerCase().includes(query))
+  );
+
+  document.getElementById("bookHeading").textContent =
+    savedOnly ? "My Saved Novels" : "Discover Novels";
+
+  document.getElementById("bookGrid").innerHTML =
+    filtered.length ? filtered.map(n => `
+      <div class="book">
+        <div class="cover ${n.style}">
+          <small>${n.genre}</small>
+          <h3>${n.title}</h3>
         </div>
-    </section>
+        <h3>${n.title}</h3>
+        <p>By ${n.author}</p>
+        <div class="book-actions">
+          <button onclick="openNovel(${n.id})">Read</button>
+          <button class="save" onclick="toggleSave(${n.id})">
+            ${saved.includes(n.id) ? "♥ Saved" : "♡ Save"}
+          </button>
+        </div>
+      </div>
+    `).join("") : '<p class="empty">No novels found.</p>';
+}
 
-    <footer>
-        <p>© 2026 Novel Haven. All rights reserved.</p>
-    </footer>
+function toggleSave(id) {
+  saved = saved.includes(id)
+    ? saved.filter(x => x !== id)
+    : [...saved, id];
 
-    <script>
-        function readNovel(title) {
-            alert("You selected " + title);
-        }
+  localStorage.setItem("savedNovels", JSON.stringify(saved));
+  renderBooks();
+}
 
-        function searchBooks() {
-            const search = document.getElementById("search").value.toLowerCase();
-            const books = document.querySelectorAll(".book");
+function showSaved() {
+  savedOnly = true;
+  activeGenre = "All";
+  renderGenres();
+  renderBooks();
+  window.scrollTo(0, 0);
+}
 
-            books.forEach(book => {
-                const title = book.querySelector("h3").textContent.toLowerCase();
-                book.style.display = title.includes(search) ? "block" : "none";
-            });
-        }
-    </script>
+function openNovel(id) {
+  currentNovel = novels.find(n => n.id === id);
+  currentChapter = 0;
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("reader").style.display = "block";
+
+  renderChapter();
+  window.scrollTo(0, 0);
+}
+
+function renderChapter() {
+  const chapter = currentNovel.chapters[currentChapter];
+
+  document.getElementById("readerTitle").textContent =
+    currentNovel.title;
+
+  document.getElementById("chapterLabel").textContent =
+    `Chapter ${currentChapter + 1}: ${chapter.title}`;
+
+  document.getElementById("chapterText").textContent =
+    chapter.text;
+
+  document.getElementById("chapterText").style.fontSize =
+    fontSize + "px";
+
+  document.getElementById("previous").disabled =
+    currentChapter === 0;
+
+  document.getElementById("next").disabled =
+    currentChapter === currentNovel.chapters.length - 1;
+}
+
+function changeChapter(direction) {
+  const nextChapter = currentChapter + direction;
+
+  if (nextChapter >= 0 &&
+      nextChapter < currentNovel.chapters.length) {
+    currentChapter = nextChapter;
+    renderChapter();
+    window.scrollTo(0, 0);
+  }
+}
+
+function changeFont(amount) {
+  fontSize = Math.max(14, Math.min(28, fontSize + amount));
+  document.getElementById("chapterText").style.fontSize =
+    fontSize + "px";
+}
+
+function closeReader() {
+  document.getElementById("reader").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
+
+renderGenres();
+renderBooks();
+</script>
 
 </body>
-  </html>
+</html>
