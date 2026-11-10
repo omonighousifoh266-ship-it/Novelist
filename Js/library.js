@@ -1,12 +1,7 @@
 
-// LIBRARY SETTINGS
-
-const genreList = [
-    "All", "Romance", "Fantasy", "Werewolf",
-    "Vampire", "Action", "Adventure", "Mystery",
-    "Horror", "Sci-Fi", "Cultivation", "Comedy",
-    "Drama", "Historical"
-];
+// =====================================
+// NOVEL HAVEN - LIBRARY.JS
+// =====================================
 
 let activeGenre = "All";
 let savedOnly = false;
@@ -15,14 +10,14 @@ let saved = JSON.parse(
     localStorage.getItem("savedNovels") || "[]"
 );
 
-
+// =====================================
 // HOMEPAGE SECTIONS
+// =====================================
 
 function createHomepageSections() {
     const home = document.getElementById("home");
-    const firstSection = home.querySelector("section");
 
-    if (document.getElementById("homeHighlights")) return;
+    if (!home || document.getElementById("homeHighlights")) return;
 
     const highlights = document.createElement("div");
     highlights.id = "homeHighlights";
@@ -33,62 +28,84 @@ function createHomepageSections() {
             <div id="featuredNovel"></div>
         </section>
 
-        <section>
+        <section class="recommended-section">
             <h2>Recommended for You</h2>
-            <div class="book-grid" id="recommendedGrid"></div>
+            <div id="recommendedGrid" class="book-grid"></div>
         </section>
 
-        <section>
+        <section class="continue-section">
             <h2>Continue Reading</h2>
-            <div class="book-grid" id="continueGrid"></div>
+            <div id="continueGrid" class="book-grid"></div>
         </section>
     `;
 
-    firstSection.before(highlights);
+    const firstSection = home.querySelector("section");
+
+    if (firstSection) {
+        firstSection.before(highlights);
+    } else {
+        home.appendChild(highlights);
+    }
 }
 
-
+// =====================================
 // FEATURED NOVEL
+// =====================================
 
 function renderFeatured() {
     const container = document.getElementById("featuredNovel");
+
+    if (!container || novels.length === 0) return;
+
     const novel = novels[0];
 
-    if (!novel) {
-        container.innerHTML = "<p>No featured novel yet.</p>";
-        return;
-    }
-
     container.innerHTML = `
-        <div class="book featured-book">
-            <div class="cover ${novel.style}">
-                <small>${novel.genre}</small>
-                <h2>${novel.title}</h2>
+        <div class="featured-card">
+            <div class="featured-info">
+                <span>FEATURED STORY</span>
+                <h3>${novel.title}</h3>
+                <p>By ${novel.author}</p>
+                <button onclick="openNovel(${novel.id})">
+                    Read Featured Novel
+                </button>
             </div>
-
-            <h3>${novel.title}</h3>
-            <p>By ${novel.author}</p>
-
-            <button onclick="openNovel(${novel.id})">
-                Read Featured Novel
-            </button>
         </div>
     `;
 }
 
-
+// =====================================
 // RECOMMENDED NOVELS
+// =====================================
 
 function renderRecommended() {
     const container = document.getElementById("recommendedGrid");
 
-    const recommendations = novels.slice(0, 4);
+    if (!container) return;
 
-    container.innerHTML = recommendations.map(novel => `
+    const coverSymbols = {
+        Fantasy: "🏰",
+        Romance: "🌹",
+        Action: "⚔️",
+        Mystery: "🔍",
+        Werewolf: "🐺",
+        "Sci-Fi": "🚀",
+        Horror: "👻",
+        Adventure: "🧭",
+        Cultivation: "🐉",
+        Comedy: "😂"
+    };
+
+    container.innerHTML = novels.slice(0, 4).map(novel => `
         <div class="book">
-            <div class="cover ${novel.style}">
+            <div class="cover cover-${novel.id}">
+                <span class="cover-symbol">
+                    ${coverSymbols[novel.genre] || "📖"}
+                </span>
                 <small>${novel.genre}</small>
                 <h3>${novel.title}</h3>
+                <span class="cover-author">
+                    BY ${novel.author.toUpperCase()}
+                </span>
             </div>
 
             <h3>${novel.title}</h3>
@@ -101,38 +118,39 @@ function renderRecommended() {
     `).join("");
 }
 
-
+// =====================================
 // CONTINUE READING
+// =====================================
 
 function renderContinueReading() {
     const container = document.getElementById("continueGrid");
+
+    if (!container) return;
 
     const progress = JSON.parse(
         localStorage.getItem("readingProgress") || "{}"
     );
 
-    const startedNovels = novels.filter(
-        novel => progress[novel.id] !== undefined
+    const readingNovels = novels.filter(
+        novel => progress[novel.id]
     );
 
-    if (startedNovels.length === 0) {
+    if (readingNovels.length === 0) {
         container.innerHTML = `
             <p class="empty">
                 Your reading journey starts here.
-                Open a novel and begin reading!
+                Open a novel to see it here!
             </p>
         `;
         return;
     }
 
-    container.innerHTML = startedNovels.map(novel => {
+    container.innerHTML = readingNovels.map(novel => {
         const chapterIndex = progress[novel.id].chapter || 0;
-        const chapter = novel.chapters[chapterIndex];
 
         return `
             <div class="book">
-                <div class="cover ${novel.style}">
-                    <small>${novel.genre}</small>
+                <div class="cover cover-${novel.id}">
                     <h3>${novel.title}</h3>
                 </div>
 
@@ -147,13 +165,21 @@ function renderContinueReading() {
     }).join("");
 }
 
-
-// DISPLAY GENRES
+// =====================================
+// GENRES
+// =====================================
 
 function renderGenres() {
+    const genres = [
+        "All",
+        ...new Set(novels.map(novel => novel.genre))
+    ];
+
     const container = document.getElementById("genres");
 
-    container.innerHTML = genreList.map(genre => `
+    if (!container) return;
+
+    container.innerHTML = genres.map(genre => `
         <button
             class="genre ${activeGenre === genre ? "active" : ""}"
             onclick="selectGenre('${genre}')">
@@ -161,9 +187,6 @@ function renderGenres() {
         </button>
     `).join("");
 }
-
-
-// SELECT GENRE
 
 function selectGenre(genre) {
     activeGenre = genre;
@@ -173,9 +196,9 @@ function selectGenre(genre) {
     renderBooks();
 }
 
-
-// DISPLAY NOVELS
-
+// =====================================
+// DISCOVER AND SEARCH NOVELS
+// =====================================
 
 function renderBooks() {
     const query = document
@@ -204,7 +227,9 @@ function renderBooks() {
     const grid = document.getElementById("bookGrid");
 
     if (filtered.length === 0) {
-        grid.innerHTML = `<p class="empty">No novels found.</p>`;
+        grid.innerHTML = `
+            <p class="empty">No novels found.</p>
+        `;
         return;
     }
 
@@ -243,6 +268,7 @@ function renderBooks() {
             <p>By ${novel.author}</p>
 
             <div class="book-actions">
+
                 <button onclick="openNovel(${novel.id})">
                     Read
                 </button>
@@ -250,21 +276,23 @@ function renderBooks() {
                 <button
                     class="save"
                     onclick="toggleSave(${novel.id})">
+
                     ${saved.includes(novel.id) ? "♥ Saved" : "♡ Save"}
+
                 </button>
+
             </div>
         </div>
     `).join("");
 }
 
-
-
-// SAVE OR REMOVE A NOVEL
+// =====================================
+// SAVE AND UNSAVE NOVELS
+// =====================================
 
 function toggleSave(id) {
-
     if (saved.includes(id)) {
-        saved = saved.filter(item => item !== id);
+        saved = saved.filter(savedId => savedId !== id);
     } else {
         saved.push(id);
     }
@@ -277,91 +305,86 @@ function toggleSave(id) {
     renderBooks();
 }
 
-
-// SHOW SAVED NOVELS
-
 function showSaved() {
     savedOnly = true;
     activeGenre = "All";
 
     renderGenres();
     renderBooks();
-
-    window.scrollTo(0, 0);
 }
 
-
+// =====================================
 // OPEN NOVEL DETAILS
+// =====================================
 
 function openNovel(id) {
-    currentNovel = novels.find(
-        novel => novel.id === id
-    );
+    const novel = novels.find(item => item.id === id);
 
-    if (!currentNovel) return;
+    if (!novel) return;
 
-    document.getElementById("home").style.display = "none";
-    document.getElementById("reader").style.display = "none";
-    document.getElementById("details").style.display = "block";
+    const home = document.getElementById("home");
+    const details = document.getElementById("details");
 
-    renderDetails();
+    home.style.display = "none";
+    details.style.display = "block";
+
+    renderDetails(novel);
 
     window.scrollTo(0, 0);
 }
 
-
+// =====================================
 // DISPLAY NOVEL DETAILS
+// =====================================
 
-function renderDetails() {
-
+function renderDetails(novel) {
     document.getElementById("detailTitle").textContent =
-        currentNovel.title;
-
-    document.getElementById("detailName").textContent =
-        currentNovel.title;
+        novel.title;
 
     document.getElementById("detailAuthor").textContent =
-        "Written by " + currentNovel.author;
+        "By " + novel.author;
 
     document.getElementById("detailGenre").textContent =
-        currentNovel.genre;
+        novel.genre;
 
     document.getElementById("detailSynopsis").textContent =
-        currentNovel.synopsis;
+        novel.synopsis;
 
-    const cover = document.getElementById("detailCover");
+    const chapterList = document.getElementById("chapterList");
 
-    cover.className = "cover " + currentNovel.style;
-
-    const list = document.getElementById("chapterList");
-
-    list.innerHTML = currentNovel.chapters.map(
-        (chapter, index) => `
-            <div class="chapter-item"
-                onclick="readChapter(${index})">
-
-                Chapter ${index + 1}: ${chapter.title}
-
-                <small>Tap to start reading →</small>
-
-            </div>
-        `
-    ).join("");
+    chapterList.innerHTML = novel.chapters.map((chapter, index) => `
+        <button onclick="readChapter(${novel.id}, ${index})">
+            Chapter ${index + 1}: ${chapter.title}
+        </button>
+    `).join("");
 }
 
-
-// RETURN TO LIBRARY
+// =====================================
+// CLOSE NOVEL DETAILS
+// =====================================
 
 function closeDetails() {
-
     document.getElementById("details").style.display = "none";
     document.getElementById("home").style.display = "block";
 
+    renderBooks();
+    renderContinueReading();
+
     window.scrollTo(0, 0);
 }
 
+// =====================================
+// SEARCH LISTENER
+// =====================================
 
-// START LIBRARY
+document.getElementById("search").addEventListener(
+    "input",
+    renderBooks
+);
+
+// =====================================
+// START WEBSITE
+// =====================================
 
 createHomepageSections();
 renderFeatured();
@@ -369,3 +392,4 @@ renderRecommended();
 renderContinueReading();
 renderGenres();
 renderBooks();
+        
