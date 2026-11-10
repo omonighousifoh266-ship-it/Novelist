@@ -6,12 +6,15 @@
 
     <title>Novel Haven</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Website styling -->
+    <link rel="stylesheet" href="Css/style.css">
 </head>
 
 <body>
 
+    <!-- HOME PAGE -->
     <div id="home">
+
         <header>
             <div class="logo">Novel Haven</div>
             <button onclick="showSaved()">♡ My Library</button>
@@ -19,36 +22,57 @@
 
         <div class="hero">
             <h1>Stories Beyond Imagination</h1>
-            <p>Discover new worlds. Fall in love with stories.</p>
-            <input id="search" placeholder="Search novels or authors..." oninput="renderBooks()">
+
+            <p>
+                Discover new worlds. Fall in love with stories.
+            </p>
+
+            <input
+                type="text"
+                id="search"
+                class="search"
+                placeholder="Search novels or authors..."
+                oninput="renderBooks()"
+            >
         </div>
 
+        <!-- GENRES -->
         <section>
             <h2>Explore Genres</h2>
             <div class="genres" id="genres"></div>
         </section>
 
+        <!-- NOVEL COLLECTION -->
         <section>
             <h2 id="bookHeading">Discover Novels</h2>
             <div class="book-grid" id="bookGrid"></div>
         </section>
 
-        <footer>© 2026 Novel Haven</footer>
+        <footer>
+            © 2026 Novel Haven
+        </footer>
+
     </div>
 
-    <div id="details" style="display:none;">
+
+    <!-- NOVEL DETAILS PAGE -->
+    <div id="details" style="display: none;">
+
         <header>
             <button onclick="closeDetails()">← Back</button>
             <div class="logo">Novel Haven</div>
         </header>
 
         <section class="detail-page">
+
             <div id="detailCover" class="cover">
                 <h2 id="detailTitle"></h2>
             </div>
 
             <h1 id="detailName"></h1>
+
             <p id="detailAuthor"></p>
+
             <div id="detailGenre"></div>
 
             <h3>Synopsis</h3>
@@ -56,32 +80,61 @@
 
             <h3>Chapters</h3>
             <div id="chapterList"></div>
+
         </section>
+
     </div>
 
-    <div id="reader" style="display:none;">
+
+    <!-- READING PAGE -->
+    <div id="reader" style="display: none;">
+
         <div class="reader-top">
+
             <button onclick="closeReader()">← Back</button>
-            <button onclick="changeFont(-1)">A−</button>
-            <button onclick="changeFont(1)">A+</button>
+
+            <div>
+                <button onclick="changeFont(-1)">A−</button>
+                <button onclick="changeFont(1)">A+</button>
+            </div>
+
         </div>
 
         <div class="reader-content">
+
             <h2 id="readerTitle"></h2>
+
             <p id="chapterLabel"></p>
+
             <div id="chapterText" class="chapter-text"></div>
 
             <div class="reader-controls">
-                <button id="previous" onclick="changeChapter(-1)">Previous</button>
-                <button id="next" onclick="changeChapter(1)">Next Chapter</button>
+
+                <button
+                    id="previous"
+                    onclick="changeChapter(-1)"
+                >
+                    Previous
+                </button>
+
+                <button
+                    id="next"
+                    onclick="changeChapter(1)"
+                >
+                    Next Chapter
+                </button>
+
             </div>
+
         </div>
+
     </div>
 
-    <link rel="stylesheet" href="Css/style.css">
 
-<script src="Js/novels.js"></script>
-<script src="Js/library.js"></script>
-<script src="Js/reader.js"></script>
+    <!-- JAVASCRIPT FILES -->
+    <script src="Js/novels.js"></script>
+    <script src="Js/library.js"></script>
+    <script src="Js/reader.js"></script>
+
 </body>
 </html>
