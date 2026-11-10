@@ -1,7 +1,17 @@
+
+/* =====================================
+   NOVEL HAVEN - COMPLETE STYLESHEET
+===================================== */
+
+/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -10,12 +20,14 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* HEADER */
 header {
     padding: 18px;
     background: #191725;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
 }
 
 .logo {
@@ -24,6 +36,7 @@ header {
     font-weight: bold;
 }
 
+/* BUTTONS */
 button {
     cursor: pointer;
     background: #8959c8;
@@ -31,22 +44,34 @@ button {
     border: none;
     padding: 10px 14px;
     border-radius: 7px;
+    transition: 0.25s ease;
 }
 
+button:hover {
+    background: #a477e8;
+    transform: translateY(-2px);
+}
+
+/* HERO */
 .hero {
-    padding: 45px 20px;
+    padding: 55px 20px;
     text-align: center;
-    background: linear-gradient(140deg, #302047, #151321);
+    background:
+        radial-gradient(circle at top right, #493064, transparent 45%),
+        linear-gradient(140deg, #302047, #151321);
 }
 
 .hero h1 {
+    font-size: 32px;
     margin-bottom: 12px;
 }
 
 .hero p {
     color: #c4b8d5;
+    line-height: 1.6;
 }
 
+/* SEARCH */
 .search {
     width: 90%;
     max-width: 450px;
@@ -56,8 +81,15 @@ button {
     background: #211d2d;
     color: white;
     border: 1px solid #51416c;
+    outline: none;
 }
 
+.search:focus {
+    border-color: #b69aff;
+    box-shadow: 0 0 12px rgba(182,154,255,0.15);
+}
+
+/* SECTIONS */
 section {
     padding: 22px 16px;
 }
@@ -67,10 +99,13 @@ section h3 {
     margin-bottom: 15px;
 }
 
+/* GENRES */
 .genres {
     display: flex;
     gap: 10px;
     overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
 }
 
 .genre {
@@ -84,6 +119,7 @@ section h3 {
     background: #8959c8;
 }
 
+/* BOOK GRID */
 .book-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -93,41 +129,155 @@ section h3 {
 .book {
     background: #1d1a29;
     padding: 10px;
-    border-radius: 10px;
+    border: 1px solid #302a40;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
 }
 
-.cover {
-    height: 185px;
-    border-radius: 7px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(145deg, #65418d, #211a36);
+.book:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(120,70,190,0.18);
 }
 
-.cover.two {
-    background: linear-gradient(145deg, #8c463e, #251725);
+.book > h3 {
+    margin-top: 12px;
+    font-size: 15px;
 }
 
-.cover.three {
-    background: linear-gradient(145deg, #356b75, #17202c);
-}
-
-.cover.four {
-    background: linear-gradient(145deg, #80613d, #251c25);
-}
-
-.book h3 {
-    margin-top: 10px;
-}
-
-.book p, #detailAuthor {
+.book p,
+#detailAuthor {
     color: #aaa1b9;
     font-size: 13px;
     margin-top: 6px;
 }
 
+/* =====================================
+   PREMIUM NOVEL COVERS
+===================================== */
+
+.book .cover {
+    position: relative;
+    height: 220px;
+    padding: 20px 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    isolation: isolate;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: inset 0 0 35px rgba(0,0,0,0.2);
+}
+
+.book .cover::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    top: -65px;
+    right: -55px;
+    background: rgba(255,255,255,0.13);
+    filter: blur(3px);
+    z-index: -1;
+}
+
+.book .cover::after {
+    content: "✦";
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 55px;
+    color: rgba(255,255,255,0.18);
+    z-index: -1;
+}
+
+.cover-symbol {
+    font-size: 45px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 5px rgba(0,0,0,0.3));
+}
+
+.book .cover small {
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.book .cover h3 {
+    color: white;
+    font-family: Georgia, serif;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: bold;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.45);
+    margin: 0;
+}
+
+.cover-author {
+    color: rgba(255,255,255,0.8);
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* INDIVIDUAL COVER THEMES */
+
+/* Fantasy */
+.cover-1 {
+    background: linear-gradient(145deg, #8052c9, #211039 85%);
+}
+
+/* Romance */
+.cover-2 {
+    background: linear-gradient(145deg, #bd657d, #48182f 85%);
+}
+
+/* Action */
+.cover-3 {
+    background: linear-gradient(145deg, #287f91, #102b43 85%);
+}
+
+/* Mystery */
+.cover-4 {
+    background: linear-gradient(145deg, #a57943, #34200e 85%);
+}
+
+/* Werewolf */
+.cover-5 {
+    background: linear-gradient(145deg, #526d92, #10182f 85%);
+}
+
+/* Sci-Fi */
+.cover-6 {
+    background: linear-gradient(145deg, #258eae, #101c46 85%);
+}
+
+/* Horror */
+.cover-7 {
+    background: linear-gradient(145deg, #733c48, #170d18 85%);
+}
+
+/* Adventure */
+.cover-8 {
+    background: linear-gradient(145deg, #3c9870, #123c36 85%);
+}
+
+/* Cultivation */
+.cover-9 {
+    background: linear-gradient(145deg, #c18b35, #42220c 85%);
+}
+
+/* Comedy */
+.cover-10 {
+    background: linear-gradient(145deg, #d58c42, #713b24 85%);
+}
+
+/* BOOK ACTIONS */
 .book-actions {
     display: flex;
     gap: 6px;
@@ -144,9 +294,71 @@ section h3 {
     background: #393044;
 }
 
+/* =====================================
+   HOMEPAGE HIGHLIGHTS
+===================================== */
+
+#homeHighlights section {
+    margin-bottom: 25px;
+}
+
+#homeHighlights h2 {
+    font-size: 21px;
+    color: #e9dcff;
+    margin-bottom: 18px;
+}
+
+/* FEATURED NOVEL */
+.featured-card {
+    min-height: 220px;
+    padding: 25px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.2), transparent 35%),
+        linear-gradient(135deg, #7045a5, #251638);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.featured-info span {
+    color: #e2caff;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.featured-info h3 {
+    font-family: Georgia, serif;
+    font-size: 27px;
+    margin: 15px 0 8px;
+}
+
+.featured-info p {
+    color: #d0c2df;
+    margin-bottom: 18px;
+}
+
+/* RECOMMENDED AND CONTINUE */
+#recommendedGrid,
+#continueGrid {
+    margin-top: 10px;
+}
+
+.empty {
+    color: #aaa1b9;
+    padding: 18px 5px;
+    line-height: 1.7;
+}
+
+/* =====================================
+   NOVEL DETAILS
+===================================== */
+
 .detail-page {
     max-width: 750px;
     margin: auto;
+    padding: 22px 16px;
 }
 
 .detail-page > .cover {
@@ -175,6 +387,7 @@ section h3 {
     margin-top: 12px;
 }
 
+/* CHAPTER LIST */
 .chapter-item {
     padding: 16px;
     margin-bottom: 9px;
@@ -184,17 +397,26 @@ section h3 {
     cursor: pointer;
 }
 
+.chapter-item:hover {
+    border-color: #8959c8;
+}
+
 .chapter-item small {
     display: block;
     color: #a99bbd;
     margin-top: 6px;
 }
 
+/* =====================================
+   READER
+===================================== */
+
 .reader-top {
     padding: 16px;
     background: #211c2b;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .reader-content {
@@ -231,62 +453,55 @@ section h3 {
 
 .reader-controls button:disabled {
     opacity: .4;
+    cursor: not-allowed;
 }
 
+/* FOOTER */
 footer {
     text-align: center;
     padding: 25px;
     color: #888;
+    border-top: 1px solid #292436;
+    margin-top: 30px;
 }
+
+/* =====================================
+   RESPONSIVE DESIGN
+===================================== */
 
 @media (min-width: 650px) {
     .book-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
-}
-/* ===== PREMIUM NOVEL COVERS ===== */
 
-.book-card {
-    overflow: hidden;
-    border-radius: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .hero h1 {
+        font-size: 42px;
+    }
 
-.book-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(150, 80, 255, 0.2);
+    .hero {
+        padding: 75px 20px;
+    }
 }
 
-.book-cover {
-    position: relative;
-    min-height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow: hidden;
-    border-radius: 14px;
-    background:
-        radial-gradient(circle at top right, rgba(255,255,255,.25), transparent 45%),
-        linear-gradient(135deg, #6428a8, #17102f);
-}
+@media (max-width: 380px) {
+    .book-grid {
+        gap: 9px;
+    }
 
-.book-cover::before {
-    content: "";
-    position: absolute;
-    inset: 10px;
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: 10px;
-    pointer-events: none;
-}
+    .book {
+        padding: 7px;
+    }
 
-.book-cover h3 {
-    position: relative;
-    z-index: 1;
-    color: #fff;
-    font-family: Georgia, serif;
-    font-size: 23px;
-    line-height: 1.3;
-    text-align: center;
-    text-shadow: 0 3px 12px rgba(0,0,0,.5);
+    .book .cover {
+        height: 190px;
+        padding: 12px;
+    }
+
+    .book .cover h3 {
+        font-size: 18px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
 }
