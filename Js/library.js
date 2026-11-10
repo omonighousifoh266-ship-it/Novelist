@@ -176,13 +176,13 @@ function selectGenre(genre) {
 
 // DISPLAY NOVELS
 
+
 function renderBooks() {
     const query = document
         .getElementById("search")
         .value.toLowerCase();
 
     const filtered = novels.filter(novel => {
-
         const matchesGenre =
             activeGenre === "All" ||
             novel.genre === activeGenre;
@@ -204,18 +204,38 @@ function renderBooks() {
     const grid = document.getElementById("bookGrid");
 
     if (filtered.length === 0) {
-        grid.innerHTML = `
-            <p class="empty">No novels found.</p>
-        `;
+        grid.innerHTML = `<p class="empty">No novels found.</p>`;
         return;
     }
+
+    const coverSymbols = {
+        Fantasy: "🏰",
+        Romance: "🌹",
+        Action: "⚔️",
+        Mystery: "🔍",
+        Werewolf: "🐺",
+        "Sci-Fi": "🚀",
+        Horror: "👻",
+        Adventure: "🧭",
+        Cultivation: "🐉",
+        Comedy: "😂"
+    };
 
     grid.innerHTML = filtered.map(novel => `
         <div class="book">
 
-            <div class="cover ${novel.style}">
+            <div class="cover cover-${novel.id}">
+                <span class="cover-symbol">
+                    ${coverSymbols[novel.genre] || "📖"}
+                </span>
+
                 <small>${novel.genre}</small>
+
                 <h3>${novel.title}</h3>
+
+                <span class="cover-author">
+                    BY ${novel.author.toUpperCase()}
+                </span>
             </div>
 
             <h3>${novel.title}</h3>
@@ -223,7 +243,6 @@ function renderBooks() {
             <p>By ${novel.author}</p>
 
             <div class="book-actions">
-
                 <button onclick="openNovel(${novel.id})">
                     Read
                 </button>
@@ -231,15 +250,13 @@ function renderBooks() {
                 <button
                     class="save"
                     onclick="toggleSave(${novel.id})">
-
                     ${saved.includes(novel.id) ? "♥ Saved" : "♡ Save"}
-
                 </button>
-
             </div>
         </div>
     `).join("");
 }
+
 
 
 // SAVE OR REMOVE A NOVEL
