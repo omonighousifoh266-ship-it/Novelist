@@ -1,20 +1,11 @@
+
 // LIBRARY SETTINGS
 
 const genreList = [
-    "All",
-    "Romance",
-    "Fantasy",
-    "Werewolf",
-    "Vampire",
-    "Action",
-    "Adventure",
-    "Mystery",
-    "Horror",
-    "Sci-Fi",
-    "Cultivation",
-    "Comedy",
-    "Drama",
-    "Historical"
+    "All", "Romance", "Fantasy", "Werewolf",
+    "Vampire", "Action", "Adventure", "Mystery",
+    "Horror", "Sci-Fi", "Cultivation", "Comedy",
+    "Drama", "Historical"
 ];
 
 let activeGenre = "All";
@@ -23,6 +14,138 @@ let savedOnly = false;
 let saved = JSON.parse(
     localStorage.getItem("savedNovels") || "[]"
 );
+
+
+// HOMEPAGE SECTIONS
+
+function createHomepageSections() {
+    const home = document.getElementById("home");
+    const firstSection = home.querySelector("section");
+
+    if (document.getElementById("homeHighlights")) return;
+
+    const highlights = document.createElement("div");
+    highlights.id = "homeHighlights";
+
+    highlights.innerHTML = `
+        <section class="featured-section">
+            <h2>Featured Novel</h2>
+            <div id="featuredNovel"></div>
+        </section>
+
+        <section>
+            <h2>Recommended for You</h2>
+            <div class="book-grid" id="recommendedGrid"></div>
+        </section>
+
+        <section>
+            <h2>Continue Reading</h2>
+            <div class="book-grid" id="continueGrid"></div>
+        </section>
+    `;
+
+    firstSection.before(highlights);
+}
+
+
+// FEATURED NOVEL
+
+function renderFeatured() {
+    const container = document.getElementById("featuredNovel");
+    const novel = novels[0];
+
+    if (!novel) {
+        container.innerHTML = "<p>No featured novel yet.</p>";
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="book featured-book">
+            <div class="cover ${novel.style}">
+                <small>${novel.genre}</small>
+                <h2>${novel.title}</h2>
+            </div>
+
+            <h3>${novel.title}</h3>
+            <p>By ${novel.author}</p>
+
+            <button onclick="openNovel(${novel.id})">
+                Read Featured Novel
+            </button>
+        </div>
+    `;
+}
+
+
+// RECOMMENDED NOVELS
+
+function renderRecommended() {
+    const container = document.getElementById("recommendedGrid");
+
+    const recommendations = novels.slice(0, 4);
+
+    container.innerHTML = recommendations.map(novel => `
+        <div class="book">
+            <div class="cover ${novel.style}">
+                <small>${novel.genre}</small>
+                <h3>${novel.title}</h3>
+            </div>
+
+            <h3>${novel.title}</h3>
+            <p>By ${novel.author}</p>
+
+            <button onclick="openNovel(${novel.id})">
+                Read Now
+            </button>
+        </div>
+    `).join("");
+}
+
+
+// CONTINUE READING
+
+function renderContinueReading() {
+    const container = document.getElementById("continueGrid");
+
+    const progress = JSON.parse(
+        localStorage.getItem("readingProgress") || "{}"
+    );
+
+    const startedNovels = novels.filter(
+        novel => progress[novel.id] !== undefined
+    );
+
+    if (startedNovels.length === 0) {
+        container.innerHTML = `
+            <p class="empty">
+                Your reading journey starts here.
+                Open a novel and begin reading!
+            </p>
+        `;
+        return;
+    }
+
+    container.innerHTML = startedNovels.map(novel => {
+        const chapterIndex = progress[novel.id].chapter || 0;
+        const chapter = novel.chapters[chapterIndex];
+
+        return `
+            <div class="book">
+                <div class="cover ${novel.style}">
+                    <small>${novel.genre}</small>
+                    <h3>${novel.title}</h3>
+                </div>
+
+                <h3>${novel.title}</h3>
+                <p>Chapter ${chapterIndex + 1}</p>
+
+                <button onclick="openNovel(${novel.id})">
+                    Continue Reading
+                </button>
+            </div>
+        `;
+    }).join("");
+}
 
 
 // DISPLAY GENRES
@@ -141,7 +264,6 @@ function toggleSave(id) {
 // SHOW SAVED NOVELS
 
 function showSaved() {
-
     savedOnly = true;
     activeGenre = "All";
 
@@ -155,10 +277,11 @@ function showSaved() {
 // OPEN NOVEL DETAILS
 
 function openNovel(id) {
-
     currentNovel = novels.find(
         novel => novel.id === id
     );
+
+    if (!currentNovel) return;
 
     document.getElementById("home").style.display = "none";
     document.getElementById("reader").style.display = "none";
@@ -223,5 +346,9 @@ function closeDetails() {
 
 // START LIBRARY
 
+createHomepageSections();
+renderFeatured();
+renderRecommended();
+renderContinueReading();
 renderGenres();
 renderBooks();
